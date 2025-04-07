@@ -87,8 +87,6 @@ jobs:
 
       - name: Debug build context
         run: |
-          echo "Build context will include:"
-          git ls-files
           echo "Checking for requirements.txt:"
           ls -la requirements.txt || echo "requirements.txt not found"
 
