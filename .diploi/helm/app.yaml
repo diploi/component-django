@@ -38,7 +38,7 @@ spec:
         - name: install-dependencies
           image: {{ .Values.images.app }}
           imagePullPolicy: Always
-          command: ['pip3','install','-r','requirements.txt','--no-cache-dir']
+          command: ['python','manage.py','runserver']
           workingDir: /app/{{ .Values.identifier }}
           volumeMounts:
             - name: app-mount
