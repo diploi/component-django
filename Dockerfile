@@ -1,9 +1,9 @@
-# syntax=docker/dockerfile:1.4
+FROM python:3.13-alpine AS builder
+ARG FOLDER=/app
 
-FROM --platform=$BUILDPLATFORM python:3.7-alpine AS builder
 
 EXPOSE 8000
-WORKDIR /app 
+WORKDIR ${FOLDER}
 COPY requirements.txt /app
 RUN pip3 install -r requirements.txt --no-cache-dir
 COPY . /app 
