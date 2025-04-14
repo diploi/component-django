@@ -44,8 +44,8 @@ jobs:
       - name: Debug build context
         run: |
           echo "Checking list of files:"
-          ls -a requirements.txt
-          
+          ls -a
+
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
@@ -100,7 +100,7 @@ jobs:
       - name: Debug build context
         run: |
           echo "Checking list of files:"
-          ls -a requirements.txt
+          ls -a
 
       - name: Build and push
         uses: docker/build-push-action@v6
