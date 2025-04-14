@@ -41,6 +41,11 @@ jobs:
           fi
           echo "tags=$TAGS" >> $GITHUB_ENV
 
+      - name: Debug build context
+        run: |
+          echo "Checking list of files:"
+          ls -a requirements.txt
+          
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
@@ -48,6 +53,13 @@ jobs:
           platforms: linux/arm64
           tags: ${{ env.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Debug on failure
+        if: ${{ failure() }}
+        run: |
+          echo "Build failed. Checking for intermediate files..."
+          docker buildx ls
+          docker images -a
 
   development:
     name: "Development"
@@ -87,8 +99,8 @@ jobs:
 
       - name: Debug build context
         run: |
-          echo "Checking for requirements.txt:"
-          ls -la requirements.txt || echo "requirements.txt not found"
+          echo "Checking list of files:"
+          ls -a requirements.txt
 
       - name: Build and push
         uses: docker/build-push-action@v6
