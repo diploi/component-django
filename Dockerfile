@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.4
 
-FROM --platform=$BUILDPLATFORM python:3.7-alpine AS base
+FROM --platform=linux/arm64 python:3.7-alpine AS base
 
 ARG FOLDER=/app
 
