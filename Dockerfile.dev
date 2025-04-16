@@ -1,16 +1,14 @@
 # syntax=docker/dockerfile:1.4
 
-FROM --platform=$BUILDPLATFORM python:3.7-alpine AS builder
+FROM --platform=linux/arm64 python:3.7-alpine AS builder
 
 ARG FOLDER=/app
 
 # Add user 1000 to docker containers - not root
-EXPOSE 8000
+COPY . /app
 WORKDIR ${FOLDER}
-RUN ls -a
-COPY requirements.txt ${FOLDER}
+# COPY requirements.txt ${FOLDER}
 RUN pip3 install -r requirements.txt --no-cache-dir
-COPY . ${FOLDER}
 ENTRYPOINT ["python3"] 
 CMD ["manage.py", "runserver", "0.0.0.0:8000"]
 
@@ -25,5 +23,6 @@ addgroup -S docker
 adduser -S --shell /bin/bash --ingroup docker vscode
 EOF
 # install Docker tools (cli, buildx, compose)
+EXPOSE 8000
 COPY --from=gloursdocker/docker / /
 CMD ["manage.py", "runserver", "0.0.0.0:8000"]
