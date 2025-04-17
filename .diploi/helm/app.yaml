@@ -30,24 +30,24 @@ spec:
       terminationGracePeriodSeconds: 10
       imagePullSecrets:
         - name: diploi-pull-secret
-      {{- if eq .Values.stage "development"}}
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-      initContainers:
-        - name: install-dependencies
-          image: {{ .Values.images.app }}
-          imagePullPolicy: Always
-          command: ['pip3','install','-r','requirements.txt','--no-cache-dir']
-          workingDir: /app/{{ .Values.identifier }}
-          volumeMounts:
-            - name: app-mount
-              mountPath: /app
-          securityContext:
-            runAsUser: 0
-            runAsGroup: 0
-            allowPrivilegeEscalation: false
-      {{- end }}
+      # {{- if eq .Values.stage "development"}}
+      # securityContext:
+      #   runAsUser: 1000
+      #   runAsGroup: 1000
+      # initContainers:
+      #   - name: install-dependencies
+      #     image: {{ .Values.images.app }}
+      #     imagePullPolicy: Always
+      #     command: ['pip3','install','-r','requirements.txt','--no-cache-dir']
+      #     workingDir: /app/{{ .Values.identifier }}
+      #     volumeMounts:
+      #       - name: app-mount
+      #         mountPath: /app
+      #     securityContext:
+      #       runAsUser: 0
+      #       runAsGroup: 0
+      #       allowPrivilegeEscalation: false
+      # {{- end }}
       containers:
         - name: app
           image: {{ .Values.images.app }}
