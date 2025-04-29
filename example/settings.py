@@ -36,6 +36,8 @@ DEBUG = env.bool('DEBUG', True)
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", ("localhost", "127.0.0.1"))
 
+if 'APP_PUBLIC_URL' in os.environ:
+    ALLOWED_HOSTS.append(os.environ['APP_PUBLIC_URL'])
 
 # Application definition
 
