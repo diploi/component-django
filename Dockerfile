@@ -1,28 +1,41 @@
-# syntax=docker/dockerfile:1.4
-
-FROM --platform=linux/arm64 python:3.7-alpine AS builder
+FROM python:3.13-alpine AS base
 
 ARG FOLDER=/app
 
-# Add user 1000 to docker containers - not root
-COPY . /app
 WORKDIR ${FOLDER}
-# COPY requirements.txt ${FOLDER}
-RUN pip3 install -r requirements.txt --no-cache-dir
-ENTRYPOINT ["python3"] 
-CMD ["manage.py", "runserver", "0.0.0.0:8000"]
 
-FROM builder as dev-envs
-RUN <<EOF
-apk update
-apk add git
-EOF
+COPY . /app
 
-RUN <<EOF
-addgroup -S docker
-adduser -S --shell /bin/bash --ingroup docker vscode
-EOF
-# install Docker tools (cli, buildx, compose)
+RUN chown -R 1000:1000 /app
+
+RUN pip3 wheel --no-cache-dir --no-deps -r requirements.txt -w /wheels
+
+FROM base AS release
+
+WORKDIR ${FOLDER}
+
+RUN apk add --no-cache shadow
+
+RUN groupadd -g 1000 devgroup && \
+    useradd -u 1000 -g 1000 -m devuser
+
+COPY --from=base /wheels /wheels
+
+RUN chown -R 1000:1000 /wheels
+
+RUN pip3 install gunicorn --no-cache /wheels/*
+
+COPY . /app/
+
+RUN chown -R 1000:1000 /app
+
+RUN python manage.py collectstatic --noinput
+
+USER devuser
+
 EXPOSE 8000
-COPY --from=gloursdocker/docker / /
-CMD ["manage.py", "runserver", "0.0.0.0:8000"]
+
+CMD ["gunicorn", "djangoapp.wsgi:application", \
+     "--bind", "0.0.0.0:8000", \
+     "--workers", "3", \
+     "--log-level", "info"]
