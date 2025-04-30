@@ -35,7 +35,7 @@ DEBUG = True
 if 'STAGE' != 'development' in os.environ:
     DEBUG = env.bool('DEBUG', False)
 
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", ("localhost", "127.0.0.1", "0.0.0.0"))
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1", "0.0.0.0"])
 
 # This is how your application gets their URL from Diploi
 # if you modify or delete it, your application might not work properly 
