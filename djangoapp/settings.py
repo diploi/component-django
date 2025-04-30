@@ -32,8 +32,8 @@ SECRET_KEY = env('SECRET_KEY',
                 'django-insecure-)ewse_5dac#n!wvz4(@-ev7i+39qt)8#(a(mh&rec7-)=n%isd')
 
 DEBUG = True
-if 'STAGE' != 'development' in os.environ:
-    DEBUG = env.bool('DEBUG', False)
+# if 'STAGE' != 'development' in os.environ:
+#     DEBUG = env.bool('DEBUG', False)
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1", "0.0.0.0"])
 
@@ -41,7 +41,6 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1", "0.
 # if you modify or delete it, your application might not work properly 
 if 'APP_PUBLIC_URL' in os.environ:
     ALLOWED_HOSTS.append(os.environ['APP_PUBLIC_URL'])
-
 
 # Application definition
 
@@ -130,6 +129,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+<<<<<<< HEAD:djangoapp/settings.py
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -137,3 +137,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+=======
+STATIC_URL = '/static/'
+>>>>>>> main:example/settings.py
