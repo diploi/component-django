@@ -31,10 +31,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY',
                 'django-insecure-)ewse_5dac#n!wvz4(@-ev7i+39qt)8#(a(mh&rec7-)=n%isd')
 
-if 'STAGE' == 'development' in os.environ:
-    DEBUG = env.bool('DEBUG', True)
+DEBUG = True
+if 'STAGE' != 'development' in os.environ:
+    DEBUG = env.bool('DEBUG', False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", ("localhost", "127.0.0.1", "0.0.0.0"))
 
 # This is how your application gets their URL from Diploi
 # if you modify or delete it, your application might not work properly 
@@ -130,6 +131,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
