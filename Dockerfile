@@ -6,8 +6,6 @@ WORKDIR ${FOLDER}
 
 COPY . /app
 
-RUN chown -R 1000:1000 /app
-
 RUN pip3 wheel --no-cache-dir --no-deps -r requirements.txt -w /wheels
 
 FROM base AS release
