@@ -25,8 +25,6 @@ RUN chown -R 1000:1000 /wheels
 
 RUN pip3 install gunicorn --no-cache /wheels/*
 
-COPY . /app/
-
 RUN chown -R 1000:1000 /app
 
 RUN python manage.py collectstatic --noinput
