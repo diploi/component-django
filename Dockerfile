@@ -19,11 +19,11 @@ RUN groupadd -g 1000 devgroup && \
 
 COPY --from=base /wheels /wheels
 
-RUN chown -R 1000:1000 /wheels
+RUN chown -R devuser:devgroup /wheels
 
 RUN pip3 install gunicorn --no-cache /wheels/*
 
-RUN chown -R 1000:1000 /app
+RUN chown -R devuser:devgroup /app
 
 RUN python manage.py collectstatic --noinput
 
