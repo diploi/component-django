@@ -25,7 +25,7 @@ RUN pip3 install gunicorn --no-cache /wheels/*
 
 RUN chown -R devuser:devgroup /app
 
-RUN python manage.py collectstatic --noinput
+RUN python3 manage.py collectstatic --noinput
 
 USER devuser
 
