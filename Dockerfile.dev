@@ -9,11 +9,12 @@ RUN apk add --no-cache shadow
 RUN groupadd -g 1000 devgroup && \
     useradd -u 1000 -g 1000 -m devuser
 
-COPY . /app
+COPY requirements.txt /app
 
 RUN chown -R devuser:devgroup /app
 
-RUN pip3 install -r requirements.txt --no-cache-dir
+RUN pip3 install -r requirements.txt --no-cache-dir && \
+    django-admin startproject djangoapp
 
 USER devuser
 
