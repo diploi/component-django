@@ -4,10 +4,9 @@ ARG FOLDER=/app
 
 WORKDIR ${FOLDER}
 
-COPY requirements.txt /app
+COPY . /app
 
-RUN pip3 wheel --no-cache-dir --no-deps -r requirements.txt -w /wheels && \
-    django-admin startproject djangoapp
+RUN pip3 wheel --no-cache-dir --no-deps -r requirements.txt -w /wheels
 
 FROM base AS release
 

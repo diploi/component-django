@@ -8,7 +8,11 @@ This component was kickstarted running
 `django-admin startproject djangoapp`
 and it has `DEBUG=true` inside **settings.py** by default
 
-Uses the official [python:3.13-alpine](https://hub.docker.com/_/python/) Docker image.
+To secure your Django app, you must update your SECRET_KEY in **settings.py**
+
+By default all Django apps use SQlite, which you must update to use your database of choice inside **settings.py**
+
+Uses the official [python:3.13-alpine](https://hub.docker.com/_/python/) Docker image and Django 5.2.3
 
 ## Operation
 
@@ -27,10 +31,15 @@ to install all necessary dependencies and
 `gunicorn djangoapp.wsgi:application --bind 0.0.0.0:8000 --workers 3 --log-level info`
 
 #### IMPORTANT
+- You must generate a new SECRET_KEY for your own application
+- Remember to update the database settings inside **settings.py** to match your own database config
 - In production you must remember to update your **settings.py**, by changing `DEBUG=false` and if you want to use external CDNs for your static files, you will need to update the `STATIC_ROOT`
 - For production and development, you are free to change the app server runner, so for example, if you prefer `uwsgi` you can change it directly on the Dockerfile for production and development
 
 ## Links
 
-- [Django for production](https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/)
-- [Django static files](https://docs.djangoproject.com/en/4.2/howto/static-files/)
+- [Django for production](https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/)
+- [Django static files](https://docs.djangoproject.com/en/5.2/howto/static-files/)
+- [SECRET_KEY in Django](https://docs.djangoproject.com/en/5.2/ref/settings/#std-setting-SECRET_KEY)
+- [Databases in Django](https://docs.djangoproject.com/en/5.2/ref/databases/)
+- [Working with multiple databases in Django](https://docs.djangoproject.com/en/5.2/topics/db/multi-db/)
