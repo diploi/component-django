@@ -13,8 +13,6 @@ COPY . /app
 
 RUN chown -R devuser:devgroup /app
 
-RUN pip3 install -r requirements.txt --no-cache-dir
-
 USER devuser
 
 EXPOSE 8000

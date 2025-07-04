@@ -38,7 +38,7 @@ spec:
         - name: install-dependencies
           image: {{ .Values.images.app }}
           imagePullPolicy: Always
-          command: ['pip3', 'install', '-r', 'requirements.txt','--no-cache-dir']
+          command: ['pip3', 'install', '-r', 'requirements.txt','--no-cache-dir','-t','packages']
           workingDir: /app/{{ .Values.identifier }}
           env:
           - name: DJANGO_ENV
