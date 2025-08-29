@@ -2,6 +2,9 @@
 
 # Django Component for Diploi
 
+Start a demo, no card required
+https://diploi.com/component/django
+
 A generic Django component ready to build your Django app.
 
 This component was kickstarted running
@@ -15,6 +18,16 @@ By default all Django apps use SQlite, which you must update to use your databas
 Uses the official [python:3.13-alpine](https://hub.docker.com/_/python/) Docker image and Django 5.2.3
 
 ## Operation
+
+### Getting started
+
+1. In the Dashboard, click **Create Project +**
+2. Under **Pick Components**, choose **Django**
+3. In **Pick Add-ons**, you can add one or multiple databases to your app
+4. Choose **Create Repository**, which will generate a new GitHub repo
+5. Now click **Launch Stack**
+
+Full guide https://diploi.com/blog/hosting_django_apps
 
 ### Development
 
