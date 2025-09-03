@@ -2,6 +2,10 @@
 
 # Django Component for Diploi
 
+[![launch with diploi badge](https://diploi.com/launch.svg)](https://diploi.com/component/django)
+[![component on diploi badge](https://diploi.com/component.svg)](https://diploi.com/component/django)
+[![latest tag badge](https://badgen.net/github/tag/diploi/component-django)](https://diploi.com/component/django)
+
 Start a demo, no card required
 https://diploi.com/component/django
 
