@@ -39,7 +39,7 @@ spec:
           image: {{ .Values.images.app }}
           imagePullPolicy: Always
           command: ['pip3', 'install', '-r', 'requirements.txt','--no-cache-dir']
-          workingDir: /app/{{ .Values.identifier }}
+          workingDir: /app{{ .Values.folder }}
           env:
           - name: DJANGO_ENV
             value: development
@@ -54,7 +54,7 @@ spec:
           ports:
             - containerPort: 8000
           {{- if eq .Values.stage "development" }}
-          workingDir: /app/{{ .Values.identifier }}
+          workingDir: /app{{ .Values.folder }}
           {{- end }}
           env:
             {{- range .Values.env }}
