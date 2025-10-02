@@ -1,24 +1,43 @@
-FROM python:3.13-alpine AS base
+FROM ghcr.io/astral-sh/uv:python3.13-alpine AS base
 
 ARG FOLDER=/app
 
 WORKDIR ${FOLDER}
 
-RUN apk add --no-cache shadow
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_TOOL_BIN_DIR=/usr/local/bin
+ENV UV_PROJECT_ENVIRONMENT="${FOLDER}/.venv"
+ENV PATH="${FOLDER}/.venv/bin:${PATH}"
+
+RUN apk add --no-cache shadow \
+    && apk add --no-cache nodejs npm \
+    && npm install -g nodemon
 
 RUN groupadd -g 1000 devgroup && \
     useradd -u 1000 -g 1000 -m devuser
 
 COPY . /app
 
+RUN mkdir -p /.cache/uv && chown devuser:devgroup -R /.cache /.cache/uv
+
 RUN chown -R devuser:devgroup /app
 
-RUN pip3 install -r requirements.txt --no-cache-dir
+RUN uv venv \
+    && uv sync
 
 USER devuser
 
 EXPOSE 8000
 
-ENTRYPOINT [ "python3" ]
+ENTRYPOINT [ ]
 
-CMD [ "manage.py", "runserver", "0.0.0.0:8000" ]
+CMD ["/usr/local/bin/nodemon", \
+    "--delay", "1", \
+    "--watch", "requirements.txt", \
+    "--watch", ".venv/lib/*", \
+    "--watch", ".venv/lib64/*", \
+    "--watch", "djangoapp", \
+    "--watch", "manage.py", \
+    "--ext", "py", \
+    "--exec", "uv run --isolated python3 manage.py runserver 0.0.0.0:8000", \
+    "--"]
