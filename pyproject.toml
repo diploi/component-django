@@ -1,0 +1,13 @@
+[project]
+name = "djangoapp"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "Django==5.2.3",
+    "environs==14.2.0",
+]
+
+[dependency-groups]
+deploy = ["gunicorn==22.0.0",]

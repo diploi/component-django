@@ -38,7 +38,11 @@ spec:
         - name: install-dependencies
           image: {{ .Values.images.app }}
           imagePullPolicy: Always
-          command: ['pip3', 'install', '-r', 'requirements.txt','--no-cache-dir']
+          command: ["/bin/sh", "-c"]
+          args:
+          - |            
+            uv sync --frozen --no-cache --link-mode=copy && \
+            cp --remove-destination "$(readlink /app{{ .Values.folder }}/.venv/bin/python)" /app{{ .Values.folder }}/.venv/bin/python 2>/dev/null || :
           workingDir: /app{{ .Values.folder }}
           env:
           - name: DJANGO_ENV
