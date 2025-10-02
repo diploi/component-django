@@ -6,8 +6,7 @@ WORKDIR ${FOLDER}
 
 ENV UV_COMPILE_BYTECODE=1
 ENV UV_TOOL_BIN_DIR=/usr/local/bin
-ENV UV_PROJECT_ENVIRONMENT="${FOLDER}/.venv"
-ENV PATH="${FOLDER}/.venv/bin:${PATH}"
+ENV PATH="$FOLDER/.venv/bin:$PATH"
 
 RUN apk add --no-cache shadow \
     && apk add --no-cache nodejs npm \
