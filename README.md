@@ -61,6 +61,7 @@ Lastly, the image will start the production server with the command:
 
 ## Links
 
+- [Adding Django to a project](https://docs.diploi.com/building/components/django)
 - [Django for production](https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/)
 - [Django static files](https://docs.djangoproject.com/en/5.2/howto/static-files/)
 - [SECRET_KEY in Django](https://docs.djangoproject.com/en/5.2/ref/settings/#std-setting-SECRET_KEY)
