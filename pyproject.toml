@@ -5,7 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "Django==5.2.3",
+    "Django==5.2.9",
     "environs==14.2.0",
 ]
 
