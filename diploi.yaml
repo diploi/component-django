@@ -17,6 +17,16 @@ connectionStrings:
     value: http://app.${DIPLOI_NAMESPACE}:8000
     description: This address is for requests from within the deployment and is inaccessible externally.
 
+parameterGroups:
+  - name: Secret Key
+    identifier: secret_key
+    description: Django Secret Key
+    parameters:
+      - name: Secret Key
+        identifier: SECRET_KEY
+        defaultValue: '${generate-random-password:50}'
+        type: secret
+
 images:
   - identifier: app
     prebuildImage: ghcr.io/diploi/component-django:[tag]
