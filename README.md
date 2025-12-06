@@ -59,6 +59,25 @@ To get all static files, the image runs the command:
 Lastly, the image will start the production server with the command:
 `uv run gunicorn djangoapp.wsgi:application --bind 0.0.0.0:8000 --workers 3 --log-level info`
 
+### Common tasks (using uv)
+
+- Create a superuser  
+  `uv run python manage.py createsuperuser`
+
+- Run migrations  
+  `uv run python manage.py migrate`
+
+- Switch the database to Postgres instead of SQLite  
+  1. Install the Postgres driver (already present in `pyproject.toml`, but if missing run `uv add "psycopg2-binary"`).  
+  2. In `djangoapp/settings.py`, set `DATABASES["default"]` to read from `DATABASE_URL` (e.g. using `env.dj_db_url` if `environs[django]` is installed). A typical value:  
+     `postgres://postgres:postgres@postgres.postgres:5432/app`  
+  3. Export `DATABASE_URL` in your environment (or add to `.env`), then run `uv run python manage.py migrate`.
+
+- Adjust CSRF trusted origins  
+  In `djangoapp/settings.py`, the list comes from `CSRF_TRUSTED_ORIGINS` env var. Add hosts as a comma-separated list, e.g.:  
+  `export CSRF_TRUSTED_ORIGINS="https://example.com,https://admin.example.com"`  
+  After updating, restart the app so Django picks up the new origins.
+
 ## Links
 
 - [Adding Django to a project](https://docs.diploi.com/building/components/django)

@@ -29,6 +29,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # THIS KEY IS UNSAFE AND ONLY MEANT TO BE USED WHEN TESTING, generate your own SECRET_KEY. You can use https://djecrety.ir/ to generate a new SECRET_KEY
 SECRET_KEY = '8um(xc_7mmw3frkj+yvz__ak$$5$o1_vl#esv-3ue0-%&n@gui'
 
+if 'SECRET_KEY' in os.environ:
+    SECRET_KEY = os.environ['SECRET_KEY']
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 # if 'STAGE' != 'development' in os.environ:
@@ -41,6 +44,9 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1", "0.
 if 'APP_PUBLIC_URL' in os.environ:
     ALLOWED_HOSTS.append(os.environ['APP_PUBLIC_URL'])
 
+CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
+if "APP_PUBLIC_URL" in os.environ:
+    CSRF_TRUSTED_ORIGINS.append(f"https://{os.environ['APP_PUBLIC_URL']}")
 
 # Application definition
 
