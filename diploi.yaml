@@ -3,19 +3,12 @@ type: component
 name: Django
 description: Official Diploi component for Django
 
-contexts:
-  - name: app
-    identifier: app
+supportsAdditionalHosts: { serviceName: 'app'}
 
 hosts:
   - name: Django
     identifier: app
-    urlFormat: '[label].[default-domain]'
-
-connectionStrings:
-  - name: Internal Address
-    value: http://app.${DIPLOI_NAMESPACE}:8000
-    description: This address is for requests from within the deployment and is inaccessible externally.
+    port: 8000
 
 parameterGroups:
   - name: Secret Key
@@ -29,9 +22,4 @@ parameterGroups:
 
 images:
   - identifier: app
-    prebuildImage: ghcr.io/diploi/component-django:[tag]
-
-logs:
-  - name: Django Log
-    type: log
-    labelSelector: app=app
+    prebuildImage: public.ecr.aws/p8t2q7f4/diploi/component-django:[tag]
