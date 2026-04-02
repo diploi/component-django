@@ -60,6 +60,29 @@ spec:
           volumeMounts:
             - name: app-mount
               mountPath: /app
+        - name: migrate-step
+          image: {{ .Values.images.app }}
+          imagePullPolicy: Always
+          command: ["/bin/sh", "-c"]
+          args:
+          - |
+            set -e
+            uv run python manage.py migrate --noinput
+          workingDir: /app{{ .Values.folder }}
+          env:
+          - name: DJANGO_ENV
+            value: development
+          - name: UV_PYTHON
+            value: {{ ((.Values.envMap.PYTHON_VERSION).value | default "3.12") | quote }}
+          - name: UV_PYTHON_INSTALL_DIR
+            value: /app{{ .Values.folder }}/.python
+          {{- range .Values.env }}
+          - name: {{ .identifier }}
+            value: {{ .value | quote }}
+          {{- end }}
+          volumeMounts:
+            - name: app-mount
+              mountPath: /app
       {{- end }}
       containers:
         - name: app
