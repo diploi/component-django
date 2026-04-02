@@ -1,42 +1,23 @@
-FROM ghcr.io/astral-sh/uv:python3.13-alpine AS base
+FROM ghcr.io/astral-sh/uv:bookworm-slim
 
+# This will be set by the GitHub action to the folder containing this component.
 ARG FOLDER=/app
 
-WORKDIR ${FOLDER}
+# This will be set by the GitHub action to the folder containing this component.
+ARG FOLDER=/app
 
-ENV UV_COMPILE_BYTECODE=1
-ENV UV_TOOL_BIN_DIR=/usr/local/bin
+RUN mkdir /app && chown 1000:1000 /app
+
+RUN mkdir -p /.cache/uv && chown -R 1000:1000 /.cache
+RUN mkdir -p /.local/share/uv/python && chown -R 1000:1000 /.local/share/uv
+RUN mkdir -p /.local/bin && chown -R 1000:1000 /.local/bin
+
+WORKDIR /app
+
+ENV UV_LINK_MODE=copy
+ENV UV_PYTHON_INSTALL_DIR=$FOLDER/.python
 ENV PATH="$FOLDER/.venv/bin:$PATH"
 
-RUN apk add --no-cache shadow \
-    && apk add --no-cache nodejs npm \
-    && npm install -g nodemon
+USER 1000:1000
 
-RUN groupadd -g 1000 devgroup && \
-    useradd -u 1000 -g 1000 -m devuser
-
-COPY . /app
-
-RUN mkdir -p /.cache/uv && chown devuser:devgroup -R /.cache /.cache/uv
-
-RUN chown -R devuser:devgroup /app
-
-RUN uv venv \
-    && uv sync
-
-USER devuser
-
-EXPOSE 8000
-
-ENTRYPOINT [ ]
-
-CMD ["/usr/local/bin/nodemon", \
-    "--delay", "1", \
-    "--watch", "requirements.txt", \
-    "--watch", ".venv/lib/*", \
-    "--watch", ".venv/lib64/*", \
-    "--watch", "djangoapp", \
-    "--watch", "manage.py", \
-    "--ext", "py", \
-    "--exec", "uv run --isolated python3 manage.py runserver 0.0.0.0:8000", \
-    "--"]
+CMD ["uv", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]

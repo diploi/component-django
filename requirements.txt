@@ -1,2 +1,0 @@
-Django==5.2.9
-environs==14.2.0

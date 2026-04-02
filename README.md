@@ -43,15 +43,10 @@ Uses the official [astral-sh/uv:3.13-alpine](https://github.com/astral-sh/uv/pkg
 
 ### Development
 
-Will run
-`uv sync`
-when component is first initialized, and `uv run --isolated python3 manage.py runserver 0.0.0.0:8000` when deployment is started.
+Will run `uv sync` for pyproject.toml or `uv pip install -r requirements.txt` for requirements.txt
+when component is first initialized, and `uv run python manage.py runserver 0.0.0.0:8000` when deployment is started.
 
 ### Production
-
-Will build a production ready image. The first step runs the command:
-`uv sync --locked --no-dev --group deploy`
-Which installs **gunicorn**, as part of `--group=deploy` in `pyproject.toml`, to install all necessary dependencies for production.
 
 To get all static files, the image runs the command:
 `uv run --locked --no-dev python manage.py collectstatic --noinput` to get all static files.
